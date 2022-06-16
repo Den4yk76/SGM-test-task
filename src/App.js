@@ -1,5 +1,7 @@
+import MuiTable from './components/muiTable/muiTable';
+
 function App() {
-    return <div>Hello, World!</div>;
+    return <MuiTable />;
 }
 
 export default App;
