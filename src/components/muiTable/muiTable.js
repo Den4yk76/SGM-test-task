@@ -53,20 +53,6 @@ const testData = {
                     dateRelease: '2019-12-31',
                 },
             },
-            2020: {
-                XX: {
-                    value: 130000,
-                    dateRelease: '2019-12-31',
-                },
-                YY: {
-                    value: 85000,
-                    dateRelease: '2019-12-31',
-                },
-                ZZ: {
-                    value: 72,
-                    dateRelease: '2019-12-31',
-                },
-            },
         },
     },
     Odeska: {
@@ -131,20 +117,6 @@ const testData = {
                     dateRelease: '2018-08-01',
                 },
             },
-            2025: {
-                XX: {
-                    value: 740000,
-                    dateRelease: '2018-12-31',
-                },
-                YY: {
-                    value: 530000,
-                    dateRelease: '2018-08-01',
-                },
-                ZZ: {
-                    value: 61,
-                    dateRelease: '2018-08-01',
-                },
-            },
         },
     },
 };
@@ -153,59 +125,58 @@ const MuiTable = () => {
     const filteredData = data => {
         const dataArr = [];
         Object.entries(data).map(el => {
-            console.log('el', el);
             return Object.entries(el[1].G).map(elem => {
-                console.log('elem', Object.values(elem[1]));
                 return dataArr.push(elem[0]);
             });
         });
         const uniqueArray = dataArr.filter(
             (val, ind, arr) => arr.indexOf(val) === ind,
         );
-        return uniqueArray;
+        return uniqueArray.sort();
     };
 
     return (
         <TableContainer>
             <Table aria-label="simple table">
-                <TableHead>
+                <TableBody>
                     <TableRow>
-                        <TableCell rowSpan={2}>regions</TableCell>
-                        {filteredData(testData).map(el => {
+                        <TableCell>regions</TableCell>
+
+                        {filteredData(testData).map(year => { // sorted year
                             return (
                                 <TableCell
                                     key={Math.random()}
                                     align="center"
                                     colSpan={3}
                                 >
-                                    {el}
+                                    {year}
                                 </TableCell>
                             );
                         })}
                     </TableRow>
-                    <TableRow>
-                        {filteredData(testData).map(el => {
-                            return (
-                                <>
-                                    <TableCell key={Math.random()}>
-                                        xx
-                                    </TableCell>
-                                    <TableCell key={Math.random()}>
-                                        yy
-                                    </TableCell>
-                                    <TableCell key={Math.random()}>
-                                        zz
-                                    </TableCell>
-                                </>
-                            );
-                        })}
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {Object.entries(testData).map(el => {
+                    {Object.entries(testData).map(reg => { // region
                         return (
-                            <TableRow key={el[0]}>
-                                <TableCell>{el[0]}</TableCell>
+                            <TableRow>
+                                <TableCell>{reg[0]}</TableCell>
+                                {filteredData(testData).map(year => { // sorted year  
+                                   return Object.entries(reg[1].G).map(regYear => { // region year
+                                    // console.log("year", year)
+                                    console.log("regYear", regYear[0])
+                                        if (regYear[0]!==year) { // is sorted year === region year
+                                            return <>
+                                            <TableCell>null</TableCell>
+                                            <TableCell>null</TableCell>
+                                            <TableCell>null</TableCell>
+                                            </>
+                                        } else {
+                                            return <>
+                                            <TableCell>{regYear[1].XX.value}</TableCell>
+                                            <TableCell>{regYear[1].YY.value}</TableCell>
+                                            <TableCell>{regYear[1].ZZ.value}</TableCell>
+                                            </>
+                                        }
+                                    })
+                                })}
                             </TableRow>
                         );
                     })}
