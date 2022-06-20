@@ -22,7 +22,7 @@
   padding: 20px;
   border-radius: 12px;
   background-color: white;
-  width: 65vw;
+  width: 90vw;
   max-height: 90vh;
   transform: scale(0.5);
   transition: 400ms all;
@@ -31,4 +31,11 @@
 
 .modal__content.active {
   transform: scale(1);
+}
+
+.readonlyInput {
+  background-color: transparent;
+  border: 0px solid;
+  width: 100%;
+  text-align: center;
 }
