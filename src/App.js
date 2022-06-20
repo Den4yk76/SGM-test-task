@@ -140,7 +140,6 @@ function App() {
     <Routes>
       <Route path="/" element={<MuiTable testData={testData} />} />
       <Route path="/popup" element={<Popup mockData={mockData} />} />
-      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 }
