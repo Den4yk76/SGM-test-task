@@ -1,6 +1,6 @@
 import MuiTable from './components/muiTable/muiTable';
 import Popup from './components/popup/popup';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
 const testData = {
   Kyivska: {

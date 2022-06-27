@@ -7,10 +7,27 @@ const MuiTable = ({ testData }) => {
     Object.entries(data).map(el => {
       return Object.entries(el[1].G).map(elem => {
         return dataArr.push(elem[0]);
+      }); //elem[0] === year, elem[1] === coords x y z
+    });
+    return dataArr
+      .filter((val, ind, arr) => {
+        return arr.indexOf(val) === ind;
+      })
+      .sort();
+  };
+
+  const filteredKeys = data => {
+    const keysArr = [];
+    Object.entries(data).map(el => {
+      return Object.values(el[1].G).map(el => {
+        return keysArr.push(...Object.keys(el));
       });
     });
-    const uniqueArray = dataArr.filter((val, ind, arr) => arr.indexOf(val) === ind);
-    return uniqueArray.sort();
+    return keysArr
+      .filter((val, ind, arr) => {
+        return arr.indexOf(val) === ind;
+      })
+      .sort();
   };
 
   function createPopupWin(pageURL, pageTitle, popupWinWidth, popupWinHeight) {
@@ -35,7 +52,12 @@ const MuiTable = ({ testData }) => {
               </TableCell>
               {filteredYears(testData).map(year => {
                 return (
-                  <TableCell key={Math.random()} sx={{ border: 1 }} align="center" colSpan={3}>
+                  <TableCell
+                    key={Math.random()}
+                    sx={{ border: 1 }}
+                    align="center"
+                    colSpan={filteredKeys(testData).length}
+                  >
                     {year}
                   </TableCell>
                 );
@@ -43,19 +65,13 @@ const MuiTable = ({ testData }) => {
             </TableRow>
             <TableRow sx={{ border: 1 }}>
               {filteredYears(testData).map(year => {
-                return (
-                  <Fragment key={Math.random()}>
-                    <TableCell sx={{ border: 1 }} align="center">
-                      xx
+                return filteredKeys(testData).map(el => {
+                  return (
+                    <TableCell key={Math.random()} sx={{ border: 1 }} align="center">
+                      {el}
                     </TableCell>
-                    <TableCell sx={{ border: 1 }} align="center">
-                      yy
-                    </TableCell>
-                    <TableCell sx={{ border: 1 }} align="center">
-                      zz
-                    </TableCell>
-                  </Fragment>
-                );
+                  );
+                });
               })}
             </TableRow>
           </TableHead>
@@ -83,37 +99,18 @@ const MuiTable = ({ testData }) => {
                         );
                       });
                     } else {
-                      return (
-                        <Fragment key={Math.random()}>
+                      return filteredKeys(testData).map(el => {
+                        return (
                           <TableCell
+                            key={Math.random()}
                             sx={{ border: 1 }}
                             align="center"
                             onClick={() => {
                               createPopupWin(`${window.location.origin}/popup`, 'popUpWindow', 900, 500);
                             }}
-                          >
-                            null
-                          </TableCell>
-                          <TableCell
-                            sx={{ border: 1 }}
-                            align="center"
-                            onClick={() => {
-                              createPopupWin(`${window.location.origin}/popup`, 'popUpWindow', 900, 500);
-                            }}
-                          >
-                            null
-                          </TableCell>
-                          <TableCell
-                            sx={{ border: 1 }}
-                            align="center"
-                            onClick={() => {
-                              createPopupWin(`${window.location.origin}/popup`, 'popUpWindow', 900, 500);
-                            }}
-                          >
-                            null
-                          </TableCell>
-                        </Fragment>
-                      );
+                          ></TableCell>
+                        );
+                      });
                     }
                   })}
                 </TableRow>
